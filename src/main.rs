@@ -10,19 +10,19 @@ fn version(){
     println!("version: 0.0.1");
 }
 
-fn count_genes(genome : String, gene : char) -> usize {
+pub fn count_genes(genome : String, gene : char) -> usize {
     return genome.matches(gene).count();
 }
 
-fn count_cg(genome : String) -> usize {
+pub fn count_cg(genome : String) -> usize {
     return genome.matches("CG").count();
 }
 
-fn count_ta(genome : String) -> usize {
+pub fn count_ta(genome : String) -> usize {
     return genome.matches("TA").count()
 }
 
-fn check_skew(genome : String) -> bool{
+pub fn check_skew(genome : String) -> bool{
     let length = genome.len();
     let half = length / 2;
     let first_half = &genome[0..half];
@@ -42,7 +42,7 @@ fn main() {
             usage();
             return;
         },
-        
+
         2 => {
             if  &args[1] == "-h" {
                 usage();
@@ -83,6 +83,20 @@ fn main() {
     }
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
 
+    #[test]
+    fn test_counts(){
+        assert_eq!(count_genes("AAA".to_string(), 'A'), 3);
+        assert_eq!(count_ta("TAAT".to_string()), 1);
+        assert_eq!(count_cg("CGGC".to_string()), 1);
+    }
 
+    #[test]
+    fn test_skew(){
+        assert_eq!(check_skew("CCGG".to_string()), true);
+    }
+}
 
