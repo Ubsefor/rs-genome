@@ -7,7 +7,7 @@ fn usage() {
 }
 
 fn version(){
-    println!("version: 0.1.0");
+    println!("version: 0.2.0");
 }
 
 pub fn count_genes(genome : String, gene : char) -> usize {
