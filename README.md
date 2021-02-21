@@ -1,5 +1,7 @@
 # rs-genome
 
+![](https://github.com/Ubsefor/rs-genome/workflows/Rust/badge.svg)
+
 A small tool to check the statements about genomes with some examples: [task](task.png)
 
 # Building:
