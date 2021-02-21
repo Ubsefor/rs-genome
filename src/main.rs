@@ -15,11 +15,29 @@ pub fn count_genes(genome : String, gene : char) -> usize {
 }
 
 pub fn count_cg(genome : String) -> usize {
-    return genome.matches("CG").count();
+    let mut count : usize = 0;
+    for i in 0..genome.len()-1 {
+        if i & 1 == 0 {
+            let word = &genome[i..i+2];
+            if word == "CG" {
+                count = count + 1;
+            }
+        }
+    }
+    return count;
 }
 
 pub fn count_ta(genome : String) -> usize {
-    return genome.matches("TA").count()
+    let mut count : usize = 0;
+    for i in 0..genome.len()-1 {
+        if i & 1 == 0 {
+            let word = &genome[i..i+2];
+            if word == "TA" {
+                count = count + 1;
+            }
+        }
+    }
+    return count;
 }
 
 pub fn check_skew(genome : String) -> bool{
@@ -65,14 +83,18 @@ fn main() {
                 panic!("Error: file seems to contain a header or not a raw genome!")
             }
             println!("Parsing genome in file: {}", filepath);
-            println!("Total genome size: {}", contents.len());
+            let mut size : usize = contents.len();
+            if contents.chars().last().unwrap() == '\n' {
+                size = contents.len() - 1;
+            }
+            println!("Total genome size: {}", size);
             println!("Amount of A: {}", count_genes(contents.clone(), 'A'));
             println!("Amount of C: {}", count_genes(contents.clone(), 'C'));
             println!("Amount of T: {}", count_genes(contents.clone(), 'T'));
             println!("Amount of G: {}", count_genes(contents.clone(), 'G'));
             println!("Amount of CG: {}", count_cg(contents.clone()));
             println!("Amount of TA: {}", count_ta(contents.clone()));
-            println!("GC Skew is present: {}", check_skew(contents));
+            println!("GC Skew is present: {}", check_skew(contents.clone()));
             return ;
         },
         
@@ -90,13 +112,31 @@ mod tests {
     #[test]
     fn test_counts(){
         assert_eq!(count_genes("AAA".to_string(), 'A'), 3);
-        assert_eq!(count_ta("TAAT".to_string()), 1);
+    }
+
+    #[test]
+    fn test_cg(){
         assert_eq!(count_cg("CGGC".to_string()), 1);
+    }
+
+    #[test]
+    fn test_ta(){
+        assert_eq!(count_ta("TAAT".to_string()), 1);
     }
 
     #[test]
     fn test_skew(){
         assert_eq!(check_skew("CCGG".to_string()), true);
+    }
+
+    #[test]
+    fn test_bounds(){
+        assert_eq!(count_ta("ATATA".to_string()), 0);
+    }
+
+    #[test]
+    fn test_bounds2(){
+        assert_eq!(count_cg("CGCGG".to_string()), 2);
     }
 }
 
