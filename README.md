@@ -26,5 +26,6 @@ From the project's root directory:
 
 Note, that the program accepts only files, containing raw genetic code (see [example](HID_NC_001802.1.txt) to get the idea), so if you download genomes from  [NCBI](https://www.ncbi.nlm.nih.gov), use FASTA format and remove the header message!
 
+# Testing:
 
-
+You can also run `cargo test` mainly to see if your rust installation is working properly.
